@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GT-T1-01 · Reto de orden alfabético · Infografía de proceso</title>
+<style>
+  :root{
+    --ink:#1d2430; --muted:#556070; --line:#d9dee6; --bg:#ffffff; --paper:#f6f7f9;
+    --deleg:#1f5fa8; --desc:#6a3fa0; --disc:#a14f00; --dili:#23704a;
+    --docente:#0d5c63; --ia:#5b3e96; --nota:#8a6d00; --notabg:#fff8e1;
+    --mode:#1f5fa8;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);
+       font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:15px;line-height:1.45}
+  .page{max-width:820px;margin:24px auto;background:var(--bg);padding:28px 32px;border:1px solid var(--line);border-radius:10px}
+  h1{font-size:26px;margin:4px 0 2px;line-height:1.15}
+  h2{font-size:17px;margin:0 0 10px;display:flex;align-items:center;gap:8px}
+  h2 .num{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--ink);color:#fff;font-size:13px}
+  section{margin-top:22px}
+  p{margin:0 0 8px}
+  .eyebrow{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  .sub{color:var(--muted);margin:0}
+
+  /* Cabecera */
+  header{border-bottom:3px solid var(--ink);padding-bottom:14px}
+  .head-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+  .badge-mode{flex:none;border:2px solid var(--mode);color:var(--mode);border-radius:10px;padding:8px 12px;text-align:center;min-width:150px}
+  .badge-mode .k{font-size:11px;text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+  .badge-mode .v{font-size:17px;font-weight:700}
+  .badge-mode .h{font-size:12px;color:var(--muted)}
+  .meta{display:grid;grid-template-columns:repeat(3,1fr);gap:6px 14px;margin-top:12px;font-size:13.5px}
+  .meta div b{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600}
+
+  /* Punto de partida */
+  .partida{background:var(--paper);border-radius:8px;padding:12px 14px;font-size:15.5px}
+
+  /* Flujo */
+  .timeline{list-style:none;margin:0;padding:0;position:relative}
+  .timeline:before{content:"";position:absolute;left:21px;top:8px;bottom:8px;width:2px;background:var(--line)}
+  .step{position:relative;display:grid;grid-template-columns:44px 1fr;gap:10px;margin-bottom:10px}
+  .step .dot{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:#fff;border:2px solid;z-index:1}
+  .step .dot svg{width:22px;height:22px}
+  .step.docente .dot{border-color:var(--docente);color:var(--docente)}
+  .step.ia .dot{border-color:var(--ia);color:var(--ia)}
+  .step.mixto .dot{border-color:var(--docente);color:var(--docente);border-style:dashed}
+  .step .body{border:1px solid var(--line);border-radius:8px;padding:8px 12px}
+  .who{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:2px 7px;border-radius:4px;color:#fff;margin-right:6px}
+  .who.docente{background:var(--docente)} .who.ia{background:var(--ia)}
+  .out{display:inline-block;margin-top:4px;font-size:13px;background:var(--paper);border-radius:4px;padding:2px 8px}
+  .legend{display:flex;gap:14px;font-size:12.5px;color:var(--muted);margin-bottom:10px;flex-wrap:wrap}
+
+  /* 4D */
+  .grid4{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .card{border:1px solid var(--line);border-top:5px solid;border-radius:8px;padding:10px 12px}
+  .card h3{margin:0 0 6px;font-size:15px}
+  .card.deleg{border-top-color:var(--deleg)} .card.deleg h3{color:var(--deleg)}
+  .card.desc{border-top-color:var(--desc)} .card.desc h3{color:var(--desc)}
+  .card.disc{border-top-color:var(--disc)} .card.disc h3{color:var(--disc)}
+  .card.dili{border-top-color:var(--dili)} .card.dili h3{color:var(--dili)}
+
+  /* Notas didácticas */
+  .nota{border-left:4px solid var(--nota);background:var(--notabg);border-radius:0 6px 6px 0;padding:6px 10px;font-size:13.5px;margin-top:8px}
+  .nota b{color:var(--nota);font-size:11px;text-transform:uppercase;letter-spacing:.05em;display:block}
+
+  /* Prompt */
+  .prompt{font-family:ui-monospace,"SFMono-Regular",Consolas,"Liberation Mono",monospace;font-size:13.5px;background:#fbfbfc;border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+  .prompt div{margin:4px 0}
+  .tag{display:inline-block;min-width:92px;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:1px 6px;border-radius:4px;margin-right:6px;text-align:center}
+  .t-ctx{background:#e3eefb;color:#174a85} .t-tarea{background:#ece4f7;color:#4f2c80}
+  .t-formato{background:#e2f2e9;color:#1b5a3b} .t-crit{background:#fbe9dc;color:#7f3f00}
+  .missing{color:var(--muted);font-style:italic}
+
+  /* DUA */
+  .dua{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .dua .card{border-top-color:var(--ink)}
+  .dua ul{margin:0;padding-left:18px;font-size:13.5px}
+  .ok{margin-top:10px;font-size:13.5px}
+  .ok svg{width:16px;height:16px;vertical-align:-3px;color:var(--dili)}
+
+  /* Resultado */
+  .stats{display:flex;gap:10px;flex-wrap:wrap}
+  .stat{border:1px solid var(--line);border-radius:8px;padding:8px 14px;min-width:150px}
+  .stat b{display:block;font-size:20px}
+  .stat span{font-size:12.5px;color:var(--muted)}
+
+  /* Pruébalo y comprueba */
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  ol.try,ul.check{margin:0;padding-left:20px}
+  ol.try li,ul.check li{margin-bottom:6px}
+  ul.check{list-style:none;padding-left:0}
+  ul.check li{padding-left:24px;position:relative}
+  ul.check li:before{content:"☐";position:absolute;left:0;top:-1px;font-size:16px}
+  .box{border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+  .box.nota-box{border-left:4px solid var(--nota)}
+
+  footer{margin-top:24px;border-top:1px solid var(--line);padding-top:10px;font-size:12px;color:var(--muted)}
+  footer p{margin:0 0 4px}
+
+  @media (max-width:640px){
+    .page{padding:18px 16px;margin:0;border-radius:0}
+    .meta{grid-template-columns:1fr 1fr}
+    .grid4,.dua,.two{grid-template-columns:1fr}
+    .head-top{flex-direction:column}
+  }
+  @page{size:A4 portrait;margin:10mm}
+  @media print{
+    body{background:#fff;font-size:11pt}
+    .page{border:none;margin:0;padding:0;max-width:none}
+    .card,.step,.box,.stat,.prompt,.partida,.nota{break-inside:avoid}
+    section{break-inside:auto}
+    h2{break-after:avoid;margin-bottom:6px}
+    section{margin-top:12px}
+    header{padding-bottom:8px}
+    .step{margin-bottom:6px}
+    .step .body,.card,.box{padding:6px 10px}
+    .nota{margin-top:5px;padding:4px 8px}
+    .partida{padding:8px 12px}
+    footer{margin-top:12px}
+    #resultado .stat{padding:4px 10px;min-width:0}
+    #resultado .stat b{font-size:15px;display:inline;margin-right:6px}
+    .grid4{gap:8px} .dua{gap:8px}
+    p{margin-bottom:4px}
+    h1{font-size:22px} h2{font-size:15px}
+    .legend{display:none}
+    .meta{margin-top:6px;gap:3px 14px}
+    .prompt{padding:6px 10px} .prompt div{margin:2px 0}
+    .dua ul li,.check li,.try li{margin-bottom:2px}
+    .step .dot{width:36px;height:36px} .step{grid-template-columns:36px 1fr}
+    .timeline:before{left:17px}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-docente" viewBox="0 0 24 24"><circle cx="12" cy="7.5" r="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 21c0-4.4 3.6-7.5 8-7.5s8 3.1 8 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-ia" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><rect x="9" y="9" width="6" height="6" rx="1" fill="currentColor"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-mixto" viewBox="0 0 24 24"><circle cx="8" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M2.5 19c0-3.3 2.5-5.5 5.5-5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><rect x="13" y="11" width="8.5" height="8.5" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><rect x="15.7" y="13.7" width="3" height="3" fill="currentColor"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+
+<main class="page">
+
+  <header>
+    <div class="head-top">
+      <div>
+        <div class="eyebrow">GT-T1-01 · Infografía de proceso · Banco de usos de IA docente</div>
+        <h1>Reto de orden alfabético</h1>
+        <p class="sub">Así lo hizo Ana Delia: una ficha de refuerzo creada con IA y revisada con los principios DUA.</p>
+      </div>
+      <div class="badge-mode" role="note" aria-label="Modo de uso de la IA: Automatización">
+        <div class="k">Modo de uso</div>
+        <div class="v">Automatización</div>
+        <div class="h">tarea definida · revisión docente</div>
+      </div>
+    </div>
+    <div class="meta">
+      <div><b>Docente</b>Ana Delia Sotelo Molero</div>
+      <div><b>Etapa · nivel · área</b>Primaria · 3.º · Lengua</div>
+      <div><b>Línea de trabajo</b>a) Aula · d) DUA</div>
+      <div><b>Punto de partida</b>Desde cero</div>
+      <div><b>Herramienta</b>Gemini (autorizada)</div>
+      <div><b>En el aula</b>Sí · 1 sesión de 60 min</div>
+    </div>
+  </header>
+
+  <section id="partida">
+    <h2><span class="num">1</span>El punto de partida</h2>
+    <p class="partida">El examen mostró que la mayoría del grupo no había adquirido el orden alfabético. Ana Delia necesitaba una ficha de refuerzo para volver a trabajarlo en el aula.</p>
+  </section>
+
+  <section id="flujo">
+    <h2><span class="num">2</span>El flujo, paso a paso</h2>
+    <div class="legend">
+      <span><span class="who docente">Docente</span>decide y revisa</span>
+      <span><span class="who ia">IA</span>ejecuta el encargo</span>
+    </div>
+    <ol class="timeline">
+      <li class="step docente">
+        <div class="dot"><svg role="img" aria-label="Docente"><use href="#i-docente"/></svg></div>
+        <div class="body"><span class="who docente">Docente</span><b>Detecta</b> la necesidad a partir de los resultados del examen.</div>
+      </li>
+      <li class="step docente">
+        <div class="dot"><svg role="img" aria-label="Docente"><use href="#i-docente"/></svg></div>
+        <div class="body"><span class="who docente">Docente</span><b>Define</b> el encargo: el curso, qué quiere exactamente en cada pregunta y el formato (ficha para imprimir, presentación clara, espacio para escribir, con pautas).</div>
+      </li>
+      <li class="step ia">
+        <div class="dot"><svg role="img" aria-label="IA"><use href="#i-ia"/></svg></div>
+        <div class="body"><span class="who ia">IA</span><b>Redacta</b> el texto y elabora las preguntas siguiendo esas instrucciones.<br><span class="out">Versión 1: «¡Reto de orden alfabético!»</span></div>
+      </li>
+      <li class="step mixto">
+        <div class="dot"><svg role="img" aria-label="Docente e IA"><use href="#i-mixto"/></svg></div>
+        <div class="body"><span class="who docente">Docente</span><span class="who ia">IA</span><b>Revisa</b> la ficha con los tres principios DUA usando el texto de ayuda del grupo y decide qué apoyos añadir.<br><span class="out">Versión 2: «¡Misión: el guardián de las palabras!»</span></div>
+      </li>
+      <li class="step docente">
+        <div class="dot"><svg role="img" aria-label="Docente"><use href="#i-docente"/></svg></div>
+        <div class="body"><span class="who docente">Docente</span><b>Comprueba</b> el resultado con el libro de texto y las actividades previas, y <b>lo lleva al aula</b>.</div>
+      </li>
+    </ol>
+    <div class="nota"><b>Qué nos enseña</b>En un mismo flujo caben dos modos: Automatización para producir la ficha y Aumentación para revisarla conversando con la IA. La IA aparece en dos pasos de cinco; las decisiones quedan en manos de la docente.</div>
+  </section>
+
+  <section id="cuatro-d">
+    <h2><span class="num">3</span>Las 4D en este caso</h2>
+    <div class="grid4">
+      <div class="card deleg">
+        <h3>Delegación</h3>
+        <p>Ella eligió el tema y el nivel. La IA redactó el texto y las preguntas siguiendo sus instrucciones.</p>
+        <div class="nota"><b>Qué nos enseña</b>Las decisiones pedagógicas no se delegan. Se delega la redacción.</div>
+      </div>
+      <div class="card desc">
+        <h3>Descripción</h3>
+        <p>Indicó el curso, lo que quería en cada pregunta y el formato final del documento.</p>
+        <div class="nota"><b>Qué nos enseña</b>Cuanto más concreto es el encargo, menos hay que corregir después.</div>
+      </div>
+      <div class="card disc">
+        <h3>Discernimiento</h3>
+        <p>Comparó la ficha con el libro de texto y con lo trabajado en clase. Comprobó que no rebajaba el objetivo de aprendizaje.</p>
+        <div class="nota"><b>Qué nos enseña</b>La referencia para revisar es tu propia programación, no la IA.</div>
+      </div>
+      <div class="card dili">
+        <h3>Diligencia</h3>
+        <p>No introdujo datos del alumnado.</p>
+        <div class="nota"><b>Qué nos enseña</b>Conviene dejar constancia del papel de la IA en el propio material, por ejemplo con una línea al pie.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="prompt">
+    <h2><span class="num">4</span>Cómo lo pidió</h2>
+    <p class="sub" style="margin-bottom:8px">Estructura del encargo, según la descripción de la autora:</p>
+    <div class="prompt">
+      <div><span class="tag t-ctx">Contexto</span>3.º de Primaria · refuerzo del orden alfabético</div>
+      <div><span class="tag t-tarea">Tarea</span>lo que quería exactamente en cada una de las preguntas</div>
+      <div><span class="tag t-formato">Formato</span>ficha lista para imprimir · presentación clara · espacio para escribir · pautas de escritura</div>
+      <div><span class="tag t-crit">Criterios</span><span class="missing">no se detallan en la ficha</span></div>
+    </div>
+    <div class="nota"><b>Si lo pruebas tú, añade…</b>el número de palabras por ejercicio, una dificultad progresiva (primera letra distinta → misma primera letra) y el vocabulario de tu libro de texto.</div>
+  </section>
+
+  <section id="dua">
+    <h2><span class="num">5</span>Para todo el alumnado (DUA)</h2>
+    <div class="dua">
+      <div class="card">
+        <h3>Implicación</h3>
+        <ul>
+          <li>Palabras agrupadas por centros de interés: animales, comida, magia.</li>
+          <li>Autoevaluación final con semáforo o caras.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Representación</h3>
+        <ul>
+          <li>Abecedario siempre visible, con vocales y consonantes en colores distintos.</li>
+          <li>Primera letra en negrita en los primeros ejercicios.</li>
+          <li>En los avanzados, el truco de subrayar la letra que marca la diferencia.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Acción y expresión</h3>
+        <ul>
+          <li>Paso intermedio: numerar las palabras (1, 2, 3…) antes de copiarlas en las pautas.</li>
+          <li>Reduce la carga de memoria de trabajo.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="ok"><svg aria-hidden="true"><use href="#i-check"/></svg> La actividad mantiene el mismo objetivo de aprendizaje y no infantiliza.</p>
+    <p class="sub" style="font-size:12.5px">Marco citado por la autora: Decreto 101/2023, de 9 de mayo (arts. 4.d y 7). Comprobar en BOJA.</p>
+  </section>
+
+  <section id="pruebalo" class="two">
+    <div class="box nota-box">
+      <h2><span class="num">6</span>Pruébalo tú</h2>
+      <ol class="try">
+        <li>Parte de un dato de tu aula y nombra el contenido concreto que quieres reforzar.</li>
+        <li>Pide la ficha indicando el contexto, qué quieres en cada ejercicio y el formato.</li>
+        <li>Antes de imprimir, pásala por el texto de ayuda DUA del grupo.</li>
+      </ol>
+    </div>
+    <div class="box nota-box" id="comprueba">
+      <h2><span class="num">7</span>Antes de usarlo, comprueba</h2>
+      <ul class="check">
+        <li>Que el abecedario incluye la Ñ y no la CH ni la LL (Ortografía de la RAE, 2010).</li>
+        <li>Que no hay palabras ambiguas ni repetidas y cada ejercicio tiene una sola solución.</li>
+        <li>Que el vocabulario es adecuado para 3.º.</li>
+        <li>Que no aparece ningún dato del alumnado.</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    <p>Reto de orden alfabético · Grupo de Trabajo "IA en la práctica docente", CEIP San Fernando, curso 2026/2027 · CC BY-NC-SA 4.0. Basado en el marco AI Fluency de R. Dakan y J. Feller (con Anthropic), CC BY-NC-SA 4.0. Elaborado con apoyo de IA generativa; contenido revisado por el profesorado autor.</p>
+    <p>Autoría de la actividad: Ana Delia Sotelo Molero</p>
+  </footer>
+
+</main>
+</body>
+</html>
